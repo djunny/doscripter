@@ -1,0 +1,5 @@
+#language c
+{
+  saveini("save.ini", "test", "val", "value");
+  echo(readini("save.ini", "test", "val", "1"));
+}

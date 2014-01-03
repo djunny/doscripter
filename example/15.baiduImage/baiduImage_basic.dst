@@ -1,0 +1,75 @@
+#language basic
+'原理为先调用百度搜索接口，获取图片地址
+'根据图片地址再调用百度识图接口，获取同样一张图尺寸最大的一张高清图
+'定义搜索关键字
+Dim keyword = "高圆圆"
+'默认保存图片路径
+Dim savepath = "baiduImage/"
+'最大获取张数
+Dim maxnum = 200
+'百度图片搜索接口
+Dim url = "http://pic.baidu.com/i?tn=resultjson_com&sf=2&fmq=&istype=2&word=[[key]]&f=3&oe=utf-8&rn=60&pn=[[page]]"
+'百度识图签名接口
+Dim stuindex = "http://stu.baidu.com/i?objurl=[[url]]&filename=&rt=0&rn=10&ftn=searchstu&ct=1&stt=0&tn=shituresult"
+'百度识图图片接口
+Dim stuurl = "http://stu.baidu.com/i?dispView=imgView&sort=size&ct=3&querysign=[[query]]&objURL=[[url]]&bdTag=1&tn=shitujson&rn=60&pn=0"
+
+'初始函数，设置refer地址，UA，cookie
+function initGet
+     _GET.clear
+     _GET.referer = "http://pic.baidu.com/"
+     _GET.useragent = "Mozilla/5.0 (Windows NT 6.1; WOW64)"
+     _GET.cookie    = "BAIDUID=B8F06EA0EBC15B615BD41688D47"+inttostr(rand(10, 99999))+":FG=1"
+end function
+'根据图片地址保存图片
+function getImgUrl(r, m)
+    '根据关键字和MD5命名图片
+    Dim picfile = keyword+"_"+md5(r["img"], 16)+".jpg"
+    '初始化
+    initGet()
+    '根据传入的图片地址，替换识图签名中的变量
+    newurl = replace(stuindex, "[[url]]", urlencode(r["img"]))
+    '清空get对象
+    _GET.clear
+    '调用识图签名接口
+    httpget(newurl)
+    '通过正则过滤GET对象中302地址的querysign参数
+    sign = Match(_GET.URL, "querysign=(*)&")
+    '将地址替换识图图片接口中的url变量
+    picurl = replace(stuurl, "[[url]]",urlencode(r["img"]))
+    '将签名替换识图接口中的query变量
+    picurl = replace(picurl, "[[query]]",sign)
+    '清空get对象
+    _GET.clear
+    '用utf-8格式调用识图接口
+    httpget(picurl,"utf-8")
+    '将GET对象返回的HTML源码进行正则过滤
+    detailpic=Match(_GET.HTML, "objURLEnc"":""(*)""")
+    '获取图片地址，保存到定义的路径
+    httpget(detailpic, "", savepath+picfile)
+    '输出保存的图片地址用作进程输出 
+    echo(detailpic)
+    '停止一秒
+    sleep(1000)
+end function
+
+'保存地址为当前路径+初始定义路径
+savepath = savepath
+'将定义的关键词进行url转码替换百度搜索接口中的变量key
+url = replace(url, "[[key]]", urlencode(keyword, true))
+'设置每页数量                
+persize = 60
+'用最大数量除每页数量向上取整，获得当前第几页
+pages   = ceil(maxnum / persize)
+'进行循环调取
+for index = 1 to pages
+    '替换page参数
+    trueurl = replace(url, "[[page]]", inttostr((index-1) * persize))
+    '初始化
+    initGet()
+    '调用搜索接口
+    httpget(trueurl, "utf-8")
+    '将接口返回内容进行正则过滤后，回传给getImgUrl方法
+    regpick("getImgUrl", _GET.HTML, "/largeTnImageUrl"":""(?<img>[^""]*?)""/is")
+    sleep(5000)
+next

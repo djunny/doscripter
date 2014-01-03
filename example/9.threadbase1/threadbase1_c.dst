@@ -1,0 +1,23 @@
+#language c
+{
+string
+  RunLang = "#language c"+#13#10+"{"+#13#10+"%s"+#13#10+"}",
+  RunScript,
+  EchoScript = "echo(""i Was Run, My Name is:""+_ThreadName);";
+  
+  //to see What Are We Run In Child Thread
+  /*
+    #language c
+    {
+      echo("i Was Run, My Name is:"+_ThreadName);
+    }
+  */
+  RunScript = Format(RunLang, [EchoScript]);
+  echo(RunScript);    
+  //Start Thread, First Param Can Pass Source Or FilePath.
+  RunThread(EchoScript, "EchoThread");
+  //wait EchoThread Run Over
+  waitThread("EchoThread");
+  //Or You Can wait All Thread Run Over;
+  //waitThread;
+}

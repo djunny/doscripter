@@ -1,0 +1,11 @@
+#language basic
+setlength(arr, 10)
+for i=0 to 9
+  arr[i] = inttostr(i)
+next
+echo(arr[0])
+
+arr2 = new TInfo()
+arr2["index1"] = "string1"
+arr2["this is index"] = "string2"
+echo(arr2["this is index"])

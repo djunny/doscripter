@@ -1,0 +1,38 @@
+#language basic
+Dim CrLf    = chr(13)+chr(10)
+Dim Qt      = chr(34)
+Dim RunLang = "#language js" +CrLf
+Dim VarScript = "str1 = "& Qt &"my vars is "& Qt &"+passstr"+CrLf+"str2 = "& Qt &"my name is "& Qt &"+_ThreadName"  
+Dim RunScript =  RunLang + VarScript 
+
+function OnThreadStart(Doscript)
+  if DoScript["_ThreadName"]="EchoThread" then 
+    'pass a variaible value "ok"
+    DoScript["passstr"] = "ok"
+  else 
+    'pass a variaible  value "other"  
+    DoScript["passstr"] = "other"
+  end if
+end Function
+
+function OnThreadOver(Doscript)
+  'access variaible In Thread
+  Echo(DoScript["str1"])
+  Echo(DoScript["str2"])
+end Function
+
+'to see What Are We Run In Child Thread
+'------------------------------------
+'#language js
+'str1 = "my vars is "+passstr
+'str2 = "my name is "+_ThreadName    
+'------------------------------------
+'echo(RunScript)
+
+'Start Thread 1 , First Param Can Pass Source Or FilePath.
+RunThread(RunScript, "EchoThread", "OnThreadStart", "OnThreadOver")
+'Start Thread 2 , OnThreadStart Pass Another variaible To Do
+RunThread(RunScript, "Thread2", "OnThreadStart", "OnThreadOver")
+
+'Wait All Thread Execute
+waitThread

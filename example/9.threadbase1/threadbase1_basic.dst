@@ -1,0 +1,19 @@
+#language basic
+Dim RunLang = "#language basic"+#13#10+"%s"
+Dim EchoScript = "echo(""i Was Run, My Name is:"" & _ThreadName)"  
+Dim RunScript = Format(RunLang, [EchoScript])
+'to see What Are We Run In Child Thread
+'--------------------------------------------
+'#language basic
+'echo("i Was Run, My Name is:" & _ThreadName)
+'--------------------------------------------
+echo(RunScript)
+
+'Start Thread, First Param Can Pass Source Or FilePath.
+RunThread(EchoScript, "EchoThread")
+
+'wait EchoThread Run Over
+waitThread("EchoThread")
+
+'Or You Can wait All Thread Run Over;
+'waitThread()

@@ -1,0 +1,4 @@
+#language pascal
+begin
+   httpget('http://www.google.com.hk/', '', 'c:/google.html');
+end.

@@ -1,0 +1,44 @@
+#language c
+//set default content url
+string URL = "http://www.biquge.com/0_360/157143.html";
+string Title = "";
+
+{
+  while(URL !=""){
+     //download the URL
+     httpget(URL);
+     if(_GET.ResponseCode == 200){
+       //Match Cotent By Pattern
+       Content = Match(_GET.HTML, "<div id=""content"">(*)</div>");
+       //HTML Convert Text Format;
+       Content = Html2txt(Content);
+       //Match Next Page URL, And Convert Absolute Url
+       //MatchURL Where innerText is '下一章'
+       URL = MatchURL(_GET.HTML, URL, "{:text,下一章}");
+     
+       //Next Page Check Format
+       if(Pos("index", URL)>0){
+         break;
+       }
+       //Get Content Title
+       if(Title==""){
+          //Match Title
+          Title = match(_GET.HTML, "var booktitle = ""(*)""");
+          //Replace FileName Bad Chars
+          Title = replaceFileNamechars(Title); 
+          //Clear Old File Content
+          SaveFile(Title+".txt", "");
+       }
+       //append Txt File Content
+       SaveFile(Title+".txt", Content, true);
+       //File Was Saved in The Script Directory
+     
+       //and to do another thing...
+     
+       //Show Progress
+       if(URL!=""){
+         echo("Download Next Chapter:"+URL);
+       }
+     }
+  }
+}

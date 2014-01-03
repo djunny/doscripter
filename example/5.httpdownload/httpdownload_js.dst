@@ -1,0 +1,2 @@
+#language js
+httpdownload("http://21.duote.net/mozhua.zip", "c:/mozhua.zip");

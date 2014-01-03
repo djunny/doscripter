@@ -1,0 +1,25 @@
+#language c
+{
+  int i = 10;
+  if(i==1){
+    alert("i=1");
+  }else{
+    for(i=0;i<=10;i++){
+      switch(i){
+        case 1:{
+          echo(i+1);break;
+        }
+        case 2:{
+          echo(i);break;
+        }
+        default:{
+          echo(i+10);break;
+        }
+      }
+    }
+    while(i<20){
+      echo(i);
+      i++;
+    }
+  }
+}

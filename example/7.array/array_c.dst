@@ -1,0 +1,17 @@
+#language c
+setlength(arr, 10);
+
+for(int i = 0; i < 10; i++){
+  arr[i] = IntToStr(i);
+}
+
+string s = "";
+for(i = 0; i < 10; i++)
+  s += arr[i];
+
+echo(s);
+
+arr2 = new TInfo();
+arr2["index1"] = "string1";
+arr2["this is index"] = "string2";
+echo(arr2["this is index"]);

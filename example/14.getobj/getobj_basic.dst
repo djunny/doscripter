@@ -1,0 +1,17 @@
+#language basic
+GET.Clear
+GET.UserAgent   = "UA"
+GET.Accept      = "*/*"
+GET.Referer     = "http://www.baidu.com/"
+GET.URL         = "http://www.google.com/"
+GET.cookie      = "a=b; c=1"
+httpget("http://www.google.com.hk/intl/zh-CN/images/logo_cn.png")
+echo("FORMAT:"+GET.Format)
+echo("Cookie:"+GET.Cookie)
+
+GET.Clear
+httpget("http://www.google.com.hk/")
+if (GET.ResponseCode = 200) then
+  echo("HTML:"+GET.HTML)
+  echo("RESPONSEHEAD:"+GET.ResponseHead[""])
+end if

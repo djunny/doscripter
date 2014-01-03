@@ -1,0 +1,23 @@
+#language pascal
+const 
+      RunLang = '#language pascal'+#13#10+'begin'+#13#10+'%s'+#13#10+'end.';
+      EchoScript = 'echo(''i Was Run, My Name is:''+_ThreadName);';
+var
+      RunScript : string;
+begin     
+  RunScript := Format(RunLang, [EchoScript]);
+  //to see What Are We Run In Child Thread
+  {
+   #language pascal
+   begin
+     echo('i Was Run, My Name is:'+_ThreadName);
+   end.
+  }
+  echo(RunScript);
+  //Start Thread, First Param Can Pass Source Or FilePath.
+  RunThread(RunScript, 'EchoThread');
+  //wait EchoThread Execute Over;
+  waitThread('EchoThread');
+  //Or You Can wait All Thread Execute Over;
+  //waitThread;
+end.

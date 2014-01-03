@@ -1,0 +1,23 @@
+#language pascal
+var 
+  arr1 : array[0..1] of string;
+  arr2 : array of string;
+  arr3 : Tinfo;
+begin
+  //array of static length
+  arr1[0] := 'string1';
+  arr1[1] := 'string2';
+  echo(arr1[0]);
+  //array of dynamic
+  setlength(arr2, 2);
+  arr2[0] := 'string1';
+  arr2[1] := 'string2';
+  echo(arr2[1]);
+  //Tinfo Object
+  arr3    := Tinfo.create;
+  arr3['index1'] := 'string1';
+  arr3['this is index'] := 'string2';
+  echo(arr3['this is index']);
+  //you can free this object or App Auto Free
+  arr3.free;
+end.

@@ -1,0 +1,2 @@
+#language js
+echo("Hello World!");

@@ -1,0 +1,4 @@
+#language pascal
+begin
+   echo('Hello World!');
+end.

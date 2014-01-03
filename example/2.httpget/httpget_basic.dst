@@ -1,0 +1,4 @@
+#language basic
+_GET.referer = "http://www.baidu.com/"
+content = httpget("http://news.qq.com/a/20120424/000057.htm")
+echo(content)

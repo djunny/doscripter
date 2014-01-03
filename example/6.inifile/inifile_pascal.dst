@@ -1,0 +1,7 @@
+#language pascal
+//saveini(FilePath:string;Section:string;KeyName:string;Value:string=''):String;
+
+begin
+  saveini('save.ini', 'test', 'val', 'value');
+  echo(readini('save.ini', 'test', 'val', '1'));
+end.

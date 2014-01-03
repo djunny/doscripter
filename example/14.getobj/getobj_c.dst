@@ -1,0 +1,19 @@
+#language c
+{
+    _GET.Clear;
+    _GET.UserAgent  = 'UA';
+    _GET.Accept     = '*/*';
+    _GET.Referer    = 'http://www.baidu.com/';
+    _GET.URL        = 'http://www.google.com/';
+    _GET.cookie     = 'a=b; c=1';
+    httpget('http://www.google.com.hk/intl/zh-CN/images/logo_cn.png');
+    echo('FORMAT:'+_GET.Format);
+    echo('Cookie:'+_GET.Cookie);
+
+    _GET.Clear;
+    httpget('http://www.google.com.hk/')
+    if(_GET.ResponseCode = 200){
+      echo('HTML:'+_GET.HTML);
+      echo('RESPONSEHEAD:'+_GET.ResponseHead['']);
+    }
+}

@@ -1,0 +1,49 @@
+#language pascal
+const 
+  RunLang = '#language pascal'+#13#10+'begin'+#13#10+'%s'+#13#10+'end.';
+  VarScript = 'str1 := ''my vars is ''+passstr;'+#13#10+'str2 := ''my name is ''+_ThreadName;';
+var
+  RunScript : string;
+
+//CallBack When A Thread Start Execute
+//TDoscripter is Thread Object  
+procedure OnThreadStart(Doscript:TDoscripter);
+begin
+  if DoScript['_ThreadName'] = 'EchoThread' then
+  begin
+    //pass a variaible value is 'ok'  
+    DoScript['passstr'] := 'ok';
+  end
+  else begin      
+    //pass a variaible value is 'other'  
+    DoScript['passstr'] := 'other';
+  end;
+end;
+
+//CallBack When A Thread Execute Over 
+//TDoscripter is Thread Object
+procedure OnThreadOver(DoScript:TDoscripter);
+begin
+  //access variaible In Thread
+  Echo(DoScript['str1']);
+  Echo(DoScript['str2']);
+end;
+
+
+begin     
+  RunScript := Format(RunLang, [VarScript]);
+  //to see What Are We Run In Child Thread
+  {
+   #language pascal
+   begin
+     str1 := 'my vars is '+passstr;
+     str2 := 'my name is '+_ThreadName;
+   end.
+  }
+  //Start Thread 1 , First Param Can Pass Source Or FilePath.
+  RunThread(RunScript, 'EchoThread', 'OnThreadStart', 'OnThreadOver');
+  //Start Thread 2 , OnThreadStart Pass Another variaible To Do
+  RunThread(RunScript, 'Thread2', 'OnThreadStart', 'OnThreadOver');
+  //Wait All Thread Execute
+  waitThread;
+end.

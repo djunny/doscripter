@@ -1,0 +1,26 @@
+#language pascal
+begin
+  i := 10;
+  if i = 1 then
+  begin
+    alert('i=1');
+  end
+  else begin
+    for i := 0 to 10 do
+    begin
+      case i of 
+        1:
+          echo(i+1);
+        2..9:
+          echo(i);
+        else
+          echo(i+10);
+        end;
+    end;
+    while i<20 do
+    begin
+      echo(i);
+      inc(i);
+    end;
+  end;
+end.

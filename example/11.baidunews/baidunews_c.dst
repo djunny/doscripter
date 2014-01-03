@@ -1,0 +1,15 @@
+#language c
+int getnews(TRegexp Reg, String Matchstr,Variant Params){
+   //html to txt
+   title = html2txt(Reg["title"]);
+   desc  = html2txt(Reg["desc"]);
+   echo(title+":"+desc);
+}
+//main
+{
+  //download url source
+  html = httpget("http://news.baidu.com/ns?word=%B1%B1%BE%A9");
+  //
+  RegCallBack("getnews", html, "<h3 class=""c-title"">(?<title>[\s\S]*?)</a>[\s\S]*?<div class=""c-summary"">(?<desc>[\s\S]*?)<a href");
+  
+}

@@ -1,0 +1,51 @@
+#language js
+var author='';
+var sfile='';
+var title='';
+
+function getcontent(html, pageone){
+       for(body = match(html, author+'</a>(*)<div class="post-jb"></div>');
+           body != '' ;){
+           if(body!=''){
+              //保存
+              savefile(sfile, html2txt(body)+chr(13)+chr(10), true);
+           }     
+           //delete match body
+           html = copy(html, pos(body, html)+length(body), MAXINT);
+           if(html=='')break;
+       }
+}
+//main
+url = input('请输入您要下载天涯帖的地址','URL','http://www.tianya.cn/publicforum/content/culture/1/343346.shtml');
+if(url == null){
+  exit;
+}
+//下载首页
+echo('开始下载处理首页:'+url);
+html = httpget(url); 
+//取得所有page
+ids  = split(match(html, 'idArticleslist[*]value="(*),"'), ',');    
+//页数
+pgs  = length(ids);      
+//取得楼主的信息
+author = match(html, 'chrAuthorName = "(*)";');
+title  = html2txt(match(html, 'chrTitle = "(*)";'));
+sfile  = _path(0)+'download/'+replacefilenamechars(title)+'.txt';
+//取得第一页内容
+getcontent(html, true);
+//输出进度
+echo(title+':取得共有 '+inttostr(pgs)+' 页需要处理...');
+//从第二页开始取内容
+for(i=1;i<pgs;i++){
+  _url = regreplace(url, '\d+\.shtml', ids[i]+'.shtml');
+  echo(title+':开始下载第'+inttostr(i+1)+'/'+inttostr(pgs)+'页:'+_url); 
+  //清除缓存
+  _GET.clear;
+  html = httpget(_url);
+  getcontent(html, false);
+}
+//保存
+savefile(sfile, chr(13)+chr(10)+'本内容由Doscripter整理，更多好玩的请上魔爪社区:www.mozhua.net', true);
+echo('下载完毕:'+sfile);
+//运行该下载后的txt文件
+run(sfile);

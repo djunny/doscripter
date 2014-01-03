@@ -1,0 +1,16 @@
+#language js
+var arr[10],arr2;
+
+for(var i = 0; i < 10; i++)
+  arr[i] = IntToStr(i);
+
+var s = "";
+for(i = 0; i < 10; i++)
+  s += arr[i];
+
+echo(s);
+
+arr2 = new TInfo();
+arr2["index1"] = "string1";
+arr2["this is index"] = "string2";
+echo(arr2["this is index"]);

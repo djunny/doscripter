@@ -1,0 +1,19 @@
+#language js
+var
+  RunLang = "#language js"+#13#10+"%s",
+  RunScript,
+  EchoScript = "echo(""i Was Run, My Name is:""+_ThreadName);";
+  
+  //to see What Are We Run In Child Thread
+  /*
+   #language js
+   echo("i Was Run, My Name is:"+_ThreadName);
+  */
+  RunScript = Format(RunLang, [EchoScript]);
+  echo(RunScript);    
+  //Start Thread, First Param Can Pass Source Or FilePath.
+  RunThread(RunScript, "EchoThread");
+  //wait EchoThread Run Over
+  waitThread("EchoThread");
+  //Or You Can wait All Thread Run Over;
+  //waitThread;

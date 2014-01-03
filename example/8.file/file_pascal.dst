@@ -1,0 +1,24 @@
+#language pascal
+var
+   fileHandle : Integer;
+begin
+   //save/savefile is same function
+   save('abc.txt', 'this is test');
+   for i:=0 to 100 do
+   begin
+     //append string to a file
+     savefile('abc.txt', inttostr(i)+'.line'+#13#10, true);
+   end;
+   if isfile('abc.txt') then
+   begin
+     // fopen/fclose/fgets/fread,fseek,fwrite function same as php 
+     fileHandle := fopen('abc.txt', 'r+');
+     while not feof(FileHandle) do
+     begin
+       //read one line
+       line := fgets(fileHandle);
+       echo(line);
+     end;  
+     fclose(fileHandle);
+   end;   
+end.

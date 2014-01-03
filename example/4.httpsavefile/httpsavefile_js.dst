@@ -1,0 +1,2 @@
+#language js
+httpget("http://www.google.com.hk/", "", "c:/google.html");

@@ -1,0 +1,6 @@
+#language pascal
+//Tip:1、Run 2、Stop 3、Resume Run
+
+begin
+   httpdownload('http://21.duote.net/mozhua.zip', 'c:/mozhua.zip');
+end.

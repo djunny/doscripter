@@ -1,0 +1,15 @@
+#language pascal
+procedure getnews(Reg:TRegexp;Matchstr:string;Params:variant);
+begin
+   //html to txt
+   title := html2txt(Reg['title']);
+   desc  := html2txt(Reg['desc']);
+   echo(title+':'+desc);
+end;
+
+begin
+   //download url source
+   html := httpget('http://news.baidu.com/ns?word=%B1%B1%BE%A9');
+   //RegCallback
+   RegCallBack('getnews', html, '<h3 class="c-title">(?<title>[\s\S]*?)</a>[\s\S]*?<div class="c-summary">(?<desc>[\s\S]*?)<a href');
+end.
